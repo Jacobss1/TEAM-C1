@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
             rb2d.velocity = new Vector2(PlayerWalkSpeed, rb2d.velocity.y);
             if (isGrounded)
             {
-                animator.Play("monkey_walk");
+                animator.Play("player_walk");
             }
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
             rb2d.velocity = new Vector2(-PlayerWalkSpeed, rb2d.velocity.y);
             if (isGrounded)
             {
-                animator.Play("monkey_walk");
+                animator.Play("player_walk");
             }
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isGrounded)
             {
-                animator.Play("monkey_idle");
+                animator.Play("hero_idle");
                 rb2d.velocity = Vector2.zero;
             }
         }

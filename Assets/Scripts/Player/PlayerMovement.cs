@@ -17,12 +17,10 @@ public class PlayerMovement : MonoBehaviour
     string buttonPressed;
     public Animator animator;
     public bool isGrounded;
+
+    public float sprintSpeed;
+    public bool isSprinting;
     [SerializeField] Transform CheckGround;
-
-    private void Awake()
-    {
-
-    }
 
     void Start()
     {
@@ -31,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Determine the direction the player is moving
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             buttonPressed = RIGHT;
@@ -42,6 +41,16 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             buttonPressed = null;
+        }
+
+        // Check if the Shift key is pressed to start sprinting
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            isSprinting = true;
+        }
+        else
+        {
+            isSprinting = false;
         }
     }
 
@@ -69,21 +78,33 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerMove()
     {
+        float moveSpeed = isSprinting ? sprintSpeed : PlayerWalkSpeed;
+
         if (buttonPressed == RIGHT)
         {
-            rb2d.velocity = new Vector2(PlayerWalkSpeed, rb2d.velocity.y);
-            if (isGrounded)
+            rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
+
+            if (isGrounded && !isSprinting)
             {
                 animator.Play("player_walk");
+            }
+            else if (isGrounded && isSprinting)
+            {
+                animator.Play("hero_run");
             }
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
         else if (buttonPressed == LEFT)
         {
-            rb2d.velocity = new Vector2(-PlayerWalkSpeed, rb2d.velocity.y);
-            if (isGrounded)
+            rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
+
+            if (isGrounded && !isSprinting)
             {
                 animator.Play("player_walk");
+            }
+            else if (isGrounded && isSprinting)
+            {
+                animator.Play("hero_run");
             }
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
@@ -102,17 +123,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey("space") && isGrounded)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, playerJumpSpeed);
-            //animator.Play("player_jump");
-        }
-
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("player_jump_up")
-            || animator.GetCurrentAnimatorStateInfo(0).IsName("player_jump_down")
-            || animator.GetCurrentAnimatorStateInfo(0).IsName("player_double_jump_up"))
-        {
-            if (Input.GetKey(KeyCode.J) && !isGrounded)
-            {
-                animator.Play("player_jump_attack");
-            }
+            animator.Play("player_jump");
         }
     }
 
@@ -132,9 +143,10 @@ public class PlayerMovement : MonoBehaviour
             animator.Play("player_attack");
             rb2d.velocity = Vector2.zero;
             rb2d.bodyType = RigidbodyType2D.Kinematic;
-            this.GetComponent<PlayerMovement>().enabled = false;
+            this.enabled = false;
         }
     }
+
     private void Salute()
     {
         if (Input.GetKey(KeyCode.V) && isGrounded)
@@ -142,9 +154,7 @@ public class PlayerMovement : MonoBehaviour
             animator.Play("hero_salute");
             rb2d.velocity = Vector2.zero;
             rb2d.bodyType = RigidbodyType2D.Kinematic;
-            this.GetComponent<PlayerMovement>().enabled = false;
-
+            this.enabled = false;
         }
     }
 }
-

@@ -11,6 +11,9 @@ public class PlayerHealthBar : MonoBehaviour
     public Animator animator;
     public GameObject playerVulnerabilityHitbox;
     [SerializeField] public PlayerMovement playerMovement;
+  
+
+
 
     private bool isDead = false;
    // public bool isImmune = false; // Made public to access from DamageSpike

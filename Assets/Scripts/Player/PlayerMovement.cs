@@ -18,6 +18,12 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     public bool isGrounded;
 
+
+    private bool isJumping;
+    public float jumpCounter;
+    public float jumpPower = 2f;
+
+
     public float sprintSpeed;
     public bool isSprinting;
     [SerializeField] Transform CheckGround;
@@ -30,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // Determine the direction the player is moving
+
+
+        PlayerJump();
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             buttonPressed = RIGHT;
@@ -42,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
         {
             buttonPressed = null;
         }
+     
 
         // Check if the Shift key is pressed to start sprinting
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -52,13 +62,14 @@ public class PlayerMovement : MonoBehaviour
         {
             isSprinting = false;
         }
+
     }
 
     private void FixedUpdate()
     {
         PlayerCheckIfIsGrounded();
         PlayerMove();
-        PlayerJump();
+       
         attack();
         flyUp();
         Salute();
@@ -120,10 +131,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerJump()
     {
-        if (Input.GetKey("space") && isGrounded)
+        if (Input.GetKeyDown(KeyCode.B) && isGrounded)
         {
+            isJumping = true;
             rb2d.velocity = new Vector2(rb2d.velocity.x, playerJumpSpeed);
             animator.Play("player_jump");
+        }
+        if (Input.GetKey(KeyCode.B) && isJumping == true && isGrounded)
+        {
+            if (jumpCounter > 0)
+            {
+                rb2d.velocity = Vector2.up * jumpPower;
+                jumpCounter += Time.deltaTime;
+                animator.Play("player_jump");
+            }
+
+            else
+            {
+                isJumping = false;
+            }
+
+        }
+        if (Input.GetKeyUp(KeyCode.B))
+        {
+            isJumping = false;
         }
     }
 

@@ -37,8 +37,17 @@ public class PlayerMovement : MonoBehaviour
     {
         // Determine the direction the player is moving
 
-
         PlayerJump();
+        HandleInput();
+
+       
+
+    }
+
+
+
+    private void HandleInput()
+    {
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             buttonPressed = RIGHT;
@@ -51,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         {
             buttonPressed = null;
         }
-     
+
 
         // Check if the Shift key is pressed to start sprinting
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -62,9 +71,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isSprinting = false;
         }
-
     }
-
     private void FixedUpdate()
     {
         PlayerCheckIfIsGrounded();
@@ -108,25 +115,29 @@ public class PlayerMovement : MonoBehaviour
         else if (buttonPressed == LEFT)
         {
             rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
-
+            animator.Play("player_walk");
             if (isGrounded && !isSprinting)
             {
-                animator.Play("player_walk");
+               
             }
             else if (isGrounded && isSprinting)
             {
                 animator.Play("hero_run");
             }
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            animator.SetBool("isJumping", isJumping);
+
         }
         else
         {
             if (isGrounded)
             {
                 animator.Play("hero_idle");
-                rb2d.velocity = Vector2.zero;
+                rb2d.velocity = new Vector2(0f, rb2d.velocity.y);
+                //rb2d.velocity = Vector2.zero;
             }
         }
+       
     }
 
     private void PlayerJump()
@@ -142,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
             if (jumpCounter > 0)
             {
                 rb2d.velocity = Vector2.up * jumpPower;
-                jumpCounter += Time.deltaTime;
+                jumpCounter -= Time.deltaTime;
                 animator.Play("player_jump");
             }
 
@@ -152,10 +163,12 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-        if (Input.GetKeyUp(KeyCode.B))
+        if (Input.GetKeyUp(KeyCode.B)&&!isGrounded)
         {
             isJumping = false;
+            animator.Play("player_jump");
         }
+        animator.SetBool("isJumping", isJumping);
     }
 
     private void flyUp()
@@ -163,7 +176,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, PlayerFlySpeed);
-            animator.Play("PlayerFly");
+            //animator.Play("PlayerFly");
         }
     }
 

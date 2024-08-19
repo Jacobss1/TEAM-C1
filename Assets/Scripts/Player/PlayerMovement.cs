@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb2d;
     public float PlayerWalkSpeed;
     public float playerMovement;
-    public float playerJumpSpeed;
+  
     public const string RIGHT = "right";
     public const string LEFT = "left";
     public float PlayerFlySpeed;
@@ -19,9 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded;
 
 
-    private bool isJumping;
-    public float jumpCounter;
-    public float jumpPower = 2f;
+  
 
 
     public float sprintSpeed;
@@ -37,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Determine the direction the player is moving
 
-        PlayerJump();
+
         HandleInput();
 
        
@@ -111,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
                 animator.Play("hero_run");
             }
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        
         }
         else if (buttonPressed == LEFT)
         {
@@ -123,9 +122,12 @@ public class PlayerMovement : MonoBehaviour
             else if (isGrounded && isSprinting)
             {
                 animator.Play("hero_run");
+
             }
+            animator.SetBool("isSprinting", isSprinting);
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-            animator.SetBool("isJumping", isJumping);
+
+            //   animator.SetBool("isJumping", playerMovement.isJumping);
 
         }
         else
@@ -140,36 +142,7 @@ public class PlayerMovement : MonoBehaviour
        
     }
 
-    private void PlayerJump()
-    {
-        if (Input.GetKeyDown(KeyCode.B) && isGrounded)
-        {
-            isJumping = true;
-            rb2d.velocity = new Vector2(rb2d.velocity.x, playerJumpSpeed);
-            animator.Play("player_jump");
-        }
-        if (Input.GetKey(KeyCode.B) && isJumping == true && isGrounded)
-        {
-            if (jumpCounter > 0)
-            {
-                rb2d.velocity = Vector2.up * jumpPower;
-                jumpCounter -= Time.deltaTime;
-                animator.Play("player_jump");
-            }
-
-            else
-            {
-                isJumping = false;
-            }
-
-        }
-        if (Input.GetKeyUp(KeyCode.B)&&!isGrounded)
-        {
-            isJumping = false;
-            animator.Play("player_jump");
-        }
-        animator.SetBool("isJumping", isJumping);
-    }
+   
 
     private void flyUp()
     {

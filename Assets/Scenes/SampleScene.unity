@@ -6140,6 +6140,7 @@ GameObject:
   - component: {fileID: 636031502}
   - component: {fileID: 636031501}
   - component: {fileID: 636031503}
+  - component: {fileID: 636031504}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -6324,12 +6325,9 @@ MonoBehaviour:
   rb2d: {fileID: 636031497}
   PlayerWalkSpeed: 10
   playerMovement: 10
-  playerJumpSpeed: 35
   PlayerFlySpeed: 10
   animator: {fileID: 636031498}
   isGrounded: 0
-  jumpCounter: 0
-  jumpPower: 10
   sprintSpeed: 40
   isSprinting: 0
   CheckGround: {fileID: 836241561}
@@ -6362,7 +6360,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 636031501}
   playerGameObject: {fileID: 636031495}
+  playerJump: {fileID: 636031504}
   rb2d: {fileID: 636031497}
+--- !u!114 &636031504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636031495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f788aec98781b5841a46d6ee5c454f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb2d: {fileID: 636031497}
+  playerJumpSpeed: 15
+  jumpCounter: 4
+  jumpPower: 2
 --- !u!1 &637762640
 GameObject:
   m_ObjectHideFlags: 0

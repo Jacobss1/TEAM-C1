@@ -99,50 +99,40 @@ public class PlayerMovement : MonoBehaviour
         if (buttonPressed == RIGHT)
         {
             rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
-
-            if (isGrounded && !isSprinting)
-            {
-                animator.Play("player_walk");
-            }
-            else if (isGrounded && isSprinting)
-            {
-                animator.Play("hero_run");
-            }
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        
         }
         else if (buttonPressed == LEFT)
         {
             rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
-            animator.Play("player_walk");
-            if (isGrounded && !isSprinting)
-            {
-               
-            }
-            else if (isGrounded && isSprinting)
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+        else if (isGrounded)
+        {
+            rb2d.velocity = new Vector2(0f, rb2d.velocity.y);
+        }
+
+        if (isGrounded)
+        {
+            if (isSprinting)
             {
                 animator.Play("hero_run");
-
             }
-            animator.SetBool("isSprinting", isSprinting);
-            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-
-            //   animator.SetBool("isJumping", playerMovement.isJumping);
-
-        }
-        else
-        {
-            if (isGrounded)
+            else if (buttonPressed != NONE) // Assuming NONE is defined for no button press.
+            {
+                animator.Play("player_walk");
+            }
+            else
             {
                 animator.Play("hero_idle");
-                rb2d.velocity = new Vector2(0f, rb2d.velocity.y);
-                //rb2d.velocity = Vector2.zero;
             }
         }
-       
+
+        animator.SetBool("isSprinting", isSprinting);
     }
 
-   
+
+
+
 
     private void flyUp()
     {

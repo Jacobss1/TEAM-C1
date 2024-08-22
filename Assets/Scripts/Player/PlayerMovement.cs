@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 animator.Play("hero_run");
             }
-            else if (buttonPressed != NONE) // Assuming NONE is defined for no button press.
+            else if (buttonPressed != LEFT || buttonPressed != RIGHT) // Assuming NONE is defined for no button press.
             {
                 animator.Play("player_walk");
             }

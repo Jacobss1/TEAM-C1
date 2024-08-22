@@ -6328,7 +6328,7 @@ MonoBehaviour:
   PlayerFlySpeed: 10
   animator: {fileID: 636031498}
   isGrounded: 0
-  sprintSpeed: 40
+  sprintSpeed: 15
   isSprinting: 0
   CheckGround: {fileID: 836241561}
 --- !u!114 &636031502
@@ -6344,8 +6344,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb2d: {fileID: 636031497}
-  fallMultiplier: 5
-  upMultiplier: 5
+  fallMultiplier: 10
+  upMultiplier: 10
 --- !u!114 &636031503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6376,7 +6376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2d: {fileID: 636031497}
   playerJumpSpeed: 15
-  jumpCounter: 4
+  jumpCounter: 15
   jumpPower: 2
 --- !u!1 &637762640
 GameObject:
@@ -11948,7 +11948,7 @@ GameObject:
   - component: {fileID: 1222603064}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: camera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11962,7 +11962,7 @@ Transform:
   m_GameObject: {fileID: 1222603060}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -95.6, y: 9.6, z: -10}
+  m_LocalPosition: {x: -97.09, y: 11.92, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12009,7 +12009,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 140
+  field of view: 112
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -12041,10 +12041,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeOffset: 0.3
   posOffset: {x: 0, y: 0, z: -10}
-  leftLimit: -124.5
-  rightLimit: 699
-  bottomLimit: -55.9
-  topLimit: 116.7
+  leftLimit: 332.6
+  rightLimit: -98.9
+  bottomLimit: -104.4
+  topLimit: 139.6
 --- !u!1 &1230383986
 GameObject:
   m_ObjectHideFlags: 0

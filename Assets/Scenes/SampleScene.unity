@@ -6140,7 +6140,6 @@ GameObject:
   - component: {fileID: 636031502}
   - component: {fileID: 636031501}
   - component: {fileID: 636031503}
-  - component: {fileID: 636031504}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -6360,24 +6359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 636031501}
   playerGameObject: {fileID: 636031495}
-  playerJump: {fileID: 636031504}
   rb2d: {fileID: 636031497}
---- !u!114 &636031504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 636031495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f788aec98781b5841a46d6ee5c454f3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb2d: {fileID: 636031497}
-  playerJumpSpeed: 15
-  jumpCounter: 15
-  jumpPower: 2
 --- !u!1 &637762640
 GameObject:
   m_ObjectHideFlags: 0
@@ -8963,7 +8945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &940757059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11945,10 +11927,9 @@ GameObject:
   - component: {fileID: 1222603061}
   - component: {fileID: 1222603063}
   - component: {fileID: 1222603062}
-  - component: {fileID: 1222603064}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: camera
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11962,7 +11943,7 @@ Transform:
   m_GameObject: {fileID: 1222603060}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -97.09, y: 11.92, z: -10}
+  m_LocalPosition: {x: -96.54, y: 12.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12009,7 +11990,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 112
+  field of view: 94.65062
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -12027,24 +12008,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &1222603064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1222603060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a49f29b8a7c8c8246b0f6e85cf55a62a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeOffset: 0.3
-  posOffset: {x: 0, y: 0, z: -10}
-  leftLimit: 332.6
-  rightLimit: -98.9
-  bottomLimit: -104.4
-  topLimit: 139.6
 --- !u!1 &1230383986
 GameObject:
   m_ObjectHideFlags: 0

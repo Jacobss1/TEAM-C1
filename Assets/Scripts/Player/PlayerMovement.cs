@@ -10,17 +10,17 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb2d;
     public float PlayerWalkSpeed;
     public float playerMovement;
-  
+
     public const string RIGHT = "right";
     public const string LEFT = "left";
     public float PlayerFlySpeed;
     string buttonPressed;
     public Animator animator;
     public bool isGrounded;
-
-
-  
-
+    public float playerJumpSpeed;
+    private bool isJumping;
+    public float jumpCounter;
+    public float jumpPower = 2f;
 
     public float sprintSpeed;
     public bool isSprinting;
@@ -33,16 +33,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Determine the direction the player is moving
-
+      
 
         HandleInput();
-
-       
+        Jump();
 
     }
-
-
 
     private void HandleInput()
     {
@@ -59,8 +55,6 @@ public class PlayerMovement : MonoBehaviour
             buttonPressed = null;
         }
 
-
-        // Check if the Shift key is pressed to start sprinting
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             isSprinting = true;
@@ -70,14 +64,15 @@ public class PlayerMovement : MonoBehaviour
             isSprinting = false;
         }
     }
+
     private void FixedUpdate()
     {
         PlayerCheckIfIsGrounded();
         PlayerMove();
-       
         attack();
         flyUp();
         Salute();
+       
     }
 
     private void PlayerCheckIfIsGrounded()
@@ -111,30 +106,46 @@ public class PlayerMovement : MonoBehaviour
             rb2d.velocity = new Vector2(0f, rb2d.velocity.y);
         }
 
-        if (isGrounded)
+        // Handle animations
+        if (isGrounded && !isJumping) // Only play walk/idle animations if not jumping
         {
             if (isSprinting)
             {
                 animator.Play("hero_run");
             }
-            else if (buttonPressed == LEFT || buttonPressed == RIGHT) // Assuming NONE is defined for no button press.
+            else if (buttonPressed == LEFT || buttonPressed == RIGHT)
+            
             {
                 animator.Play("player_walk");
-            }
-            else
+            }else
+             
+            if(isGrounded)
             {
                 animator.Play("hero_idle");
+                rb2d.velocity = Vector2.zero;
             }
         }
 
         animator.SetBool("isSprinting", isSprinting);
     }
 
+    private void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.B) && isGrounded)
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, playerJumpSpeed);
+            animator.Play("player_jump");
+            isJumping = true;
+            isGrounded = false; // The player is no longer grounded after jumping
+        }
+        if (isGrounded && isJumping)
+        {
+            isJumping = false;
+        }
 
-
-
-
-    private void flyUp()
+        animator.SetBool("isJumping", isJumping);
+    }   
+        private void flyUp()
     {
         if (Input.GetKey(KeyCode.W))
         {

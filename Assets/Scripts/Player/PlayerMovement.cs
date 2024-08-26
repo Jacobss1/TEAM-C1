@@ -175,4 +175,14 @@ public class PlayerMovement : MonoBehaviour
             this.enabled = false;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Check if the collision is with the object you want to respond to
+        if (collision.gameObject.CompareTag("MovingObject"))
+        {
+            // Trigger the "hurt" animation
+            animator.Play("hero_hurt");
+        }
+    }
 }

@@ -143,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-        animator.SetBool("isJumping", isJumping);
+       // animator.SetBool("isJumping", isJumping);
     }   
         private void flyUp()
     {

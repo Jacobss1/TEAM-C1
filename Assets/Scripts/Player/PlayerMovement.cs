@@ -22,6 +22,12 @@ public class PlayerMovement : MonoBehaviour
     public float jumpCounter;
     public float jumpPower = 2f;
 
+    public float superJumpPower = 15f;
+    public float launchTime = 1f;
+    private bool isLaunching = false;
+    private float chargeTime = 0.2f;
+
+
     public float sprintSpeed;
     public bool isSprinting;
     [SerializeField] Transform CheckGround;
@@ -33,10 +39,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-      
+
 
         HandleInput();
         Jump();
+        SuperJump();
 
     }
 
@@ -72,7 +79,9 @@ public class PlayerMovement : MonoBehaviour
         attack();
         flyUp();
         Salute();
-       
+       // CheckLanding();
+
+
     }
 
     private void PlayerCheckIfIsGrounded()
@@ -114,16 +123,18 @@ public class PlayerMovement : MonoBehaviour
                 animator.Play("hero_run");
             }
             else if (buttonPressed == LEFT || buttonPressed == RIGHT)
-            
+
             {
                 animator.Play("player_walk");
-            }else
-             
-            if(isGrounded)
+            }
+            else
+
+            if (isGrounded)
             {
                 animator.Play("hero_idle");
                 rb2d.velocity = Vector2.zero;
             }
+           //animator.SetBool("isLaunching", false);
         }
 
         animator.SetBool("isSprinting", isSprinting);
@@ -131,26 +142,65 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.B) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, playerJumpSpeed);
-            animator.Play("super_jump");
+            // animator.SetBool("isJumping", true);
+            animator.Play("superJump");
             isJumping = true;
             isGrounded = false; // The player is no longer grounded after jumping
         }
         if (isGrounded && isJumping)
         {
             isJumping = false;
+            //animator.SetBool("isJumping", false);
         }
 
-       // animator.SetBool("isJumping", isJumping);
-    }   
-        private void flyUp()
+      
+    }
+
+
+
+    private void SuperJump()
+    {
+        if (Input.GetKeyDown(KeyCode.B) && isGrounded)
+        {
+            isLaunching = true;
+            chargeTime = Time.time; // Start charging time
+           
+        }
+
+        if (Input.GetKeyUp(KeyCode.B) && isLaunching)
+        {
+            DoJump();
+            isLaunching = false;
+            animator.Play("superJump");
+            //animator.SetBool("isLaunching", false);
+
+        }
+    }
+
+
+
+    private void DoJump()
+    {
+        float chargeDuration = Time.time - chargeTime;
+        float effectiveJumpPower = Mathf.Lerp(playerJumpSpeed, superJumpPower, Mathf.Clamp01(chargeDuration / chargeTime));
+        rb2d.velocity = new Vector2(rb2d.velocity.x, effectiveJumpPower);
+      
+       
+        isJumping = true;
+        isGrounded = true;
+
+
+    }
+    private void flyUp()
     {
         if (Input.GetKey(KeyCode.W))
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, PlayerFlySpeed);
-            //animator.Play("PlayerFly");
+            
+            animator.Play("super_jump");
         }
     }
 
@@ -185,4 +235,16 @@ public class PlayerMovement : MonoBehaviour
             animator.Play("hero_hurt");
         }
     }
+
+  /*  private void CheckLanding()
+    {
+        if (isGrounded && (isJumping || isLaunching))
+        {
+            isJumping = false;
+            isLaunching = false;
+            animator.SetBool("isJumping", false);
+            animator.SetBool("islaunching", false);
+        }
+    }
+  */
 }

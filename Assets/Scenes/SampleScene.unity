@@ -6438,6 +6438,8 @@ MonoBehaviour:
   playerJumpSpeed: 50
   jumpCounter: 0
   jumpPower: 25
+  superJumpPower: 200
+  launchTime: 1
   sprintSpeed: 15
   isSprinting: 0
   CheckGround: {fileID: 836241561}

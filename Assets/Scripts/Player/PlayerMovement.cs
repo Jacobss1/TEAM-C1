@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B) && isGrounded)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, playerJumpSpeed);
-            animator.Play("player_jump");
+            animator.Play("super_jump");
             isJumping = true;
             isGrounded = false; // The player is no longer grounded after jumping
         }

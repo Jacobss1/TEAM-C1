@@ -5,50 +5,91 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance; // Singleton instance
-
+    //COMPONENTS
     public BoxCollider2D boxCollider2D;
     public Rigidbody2D rb2d;
     public float PlayerWalkSpeed;
     public float playerMovement;
 
+    //PLAYERMOVE
     public const string RIGHT = "right";
     public const string LEFT = "left";
     public float PlayerFlySpeed;
     string buttonPressed;
     public Animator animator;
     public bool isGrounded;
+
+    //JUMP
     public float playerJumpSpeed;
     private bool isJumping;
     public float jumpCounter;
     public float jumpPower = 2f;
 
+    //SUPERJUMP
     public float superJumpPower = 15f;
     public float launchTime = 1f;
     private bool isLaunching = false;
     private float chargeTime = 0.2f;
 
 
+    //SLIDE
+    [SerializeField] private TrailRenderer trailRenderer;
+    private bool slide = true;
+    public bool isSliding;
+    public float slideSpeed = 1f;
+    private float slideRange = 5f;
+    private float slideTime = 1f;
+    private float slideCooldown = 1f;
+
+    //SPRINT
     public float sprintSpeed;
     public bool isSprinting;
     [SerializeField] Transform CheckGround;
 
+
+    //BOX COLLIDERS
+
+    private Vector2 originalColliderSize;
+    private Vector2 originalColliderOffSet;
+    public Vector2 slideColliderSize;
+    public Vector2 slideColliderOffSet;    
+
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        originalColliderSize = boxCollider2D.size;
+        originalColliderOffSet = boxCollider2D.offset;
     }
 
     void Update()
     {
+        if (isSliding)
+        {
+            return;
 
+        }
 
         HandleInput();
         Jump();
         SuperJump();
 
+
+        if (Input.GetKeyDown(KeyCode.C) && isGrounded) {
+
+            StartCoroutine(Slide());
+        
+        }
+
+     
+
     }
 
     private void HandleInput()
+
     {
+
+      
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             buttonPressed = RIGHT;
@@ -74,17 +115,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if (isSliding)
+        {
+            animator.Play("slide");
+
+            return;
+        }
         PlayerCheckIfIsGrounded();
         PlayerMove();
         attack();
         flyUp();
         Salute();
-       // CheckLanding();
+        // CheckLanding();
 
 
     }
 
-    private void PlayerCheckIfIsGrounded()
+
+     
+private void PlayerCheckIfIsGrounded()
     {
         float groundCheckRadius = 0.2f;
         LayerMask groundLayer = LayerMask.GetMask("ground");
@@ -203,6 +253,35 @@ public class PlayerMovement : MonoBehaviour
             animator.Play("super_jump");
         }
     }
+
+    private IEnumerator Slide()
+    {
+        if (!isGrounded || isSliding) yield break; // Ensure sliding only happens when grounded and not already sliding
+
+        isSliding = true;
+        float originalGravity = rb2d.gravityScale;
+        rb2d.gravityScale = 0f;
+
+        // dis change the size of the boxcollider sze & gravity;
+        boxCollider2D.size = slideColliderSize;
+        boxCollider2D.offset = slideColliderOffSet;
+
+
+        // Determine the slide direction
+        float slideDirection = buttonPressed == RIGHT ? 1f : -1f;
+        rb2d.velocity = new Vector2(slideDirection * slideSpeed, 0f);
+
+        trailRenderer.emitting = true;
+        yield return new WaitForSeconds(slideTime);
+        trailRenderer.emitting = false;
+        boxCollider2D.size = originalColliderSize;
+        boxCollider2D.offset = originalColliderOffSet;
+        rb2d.gravityScale = originalGravity;
+        isSliding = false;
+
+        yield return new WaitForSeconds(slideCooldown);
+    }
+
 
     private void attack()
     {

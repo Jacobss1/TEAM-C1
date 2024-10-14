@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
         HandleInput();
         Jump();
         SuperJump();
-
+        attack();
 
         if (Input.GetKeyDown(KeyCode.C) && isGrounded) {
 
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         }
         PlayerCheckIfIsGrounded();
         PlayerMove();
-        attack();
+       
         flyUp();
         Salute();
         // CheckLanding();
@@ -285,9 +285,9 @@ private void PlayerCheckIfIsGrounded()
 
     private void attack()
     {
-        if (Input.GetKey(KeyCode.J) && isGrounded)
+        if (Input.GetKey(KeyCode.Mouse0) && isGrounded)
         {
-            animator.Play("player_attack");
+            animator.Play("attack");
             rb2d.velocity = Vector2.zero;
             rb2d.bodyType = RigidbodyType2D.Kinematic;
             this.enabled = false;
